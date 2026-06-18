@@ -2,38 +2,149 @@
 <html lang="en">
 
 <head>
+    <style>
+        .blog-container {
+            max-width: 900px;
+            margin: 40px auto;
+        }
+
+        .blog-title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #222;
+            line-height: 1.2;
+        }
+
+        .blog-cover {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            margin-bottom: 30px;
+        }
+
+        .blog-body {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #444;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .comments-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #0d6efd;
+            display: inline-block;
+        }
+
+        .comment-card {
+            display: flex;
+            gap: 15px;
+            padding: 18px;
+            border-radius: 14px;
+            background: white;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease;
+        }
+
+        .comment-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .comment-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e9ecef;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 5px;
+        }
+
+        .comment-text {
+            color: #555;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .comment-form {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+        }
+    </style>
     <%- include('./partials/head') %>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>HomePage</title>
+        <title>Blog</title>
 </head>
 
 <body>
     <%- include('./partials/nav') %>
-        <div class="container mt-3">
-            <form action="/blog" method="post" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="coverImage" class="form-label">coverImage</label>
-                    <input type="file" class="form-control" id="coverImage" name="coverImage" aria-describedby="coverImage">
 
-                </div>
+        <div class="container mt-4 blog-container">
+            <h1 class="blog-title">
+                <%= blog.title %>
+            </h1>
 
-                <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" aria-describedby="title">
+            <img src="<%= blog.coverImage %>" class="blog-cover">
 
-                </div>
-
-                <label for="floatingTextarea">Body</label>
-                <div class="mb-3">
-                    <textarea class="form-control" id="body" name="body"></textarea>
-                </div>
-
-                <div class="mb-3">
-                    <button class="btn btn-primary" type="submit">Submit</button>
-                </div>
-            </form>
+            <div class="blog-body">
+                <%= blog.body %>
+            </div>
         </div>
+
+        <div class="comments-section">
+            <h2 class="mb-4">Comments(<%= comments.length %>)</h2>
+
+            <% if (locals.user) { %>
+                <div class="comment-form">
+                    <form action="/blog/comment/<%= blog._id %>" method="post">
+                        <input type="text" class="form-control mb-3" name="content" placeholder="Write a comment...">
+
+                        <button class="btn btn-primary">
+                            Add Comment
+                        </button>
+                    </form>
+                </div>
+                <% } %>
+
+                    <% comments.forEach(comment=> { %>
+                        <div class="comment-card">
+
+                            <img src="<%= comment.createdBy?.profileImage || '/images/default.png' %>"
+                                class="comment-avatar">
+
+                            <div class="comment-content">
+                                <div class="comment-author">
+                                    <%= comment.createdBy?.fullname || 'Deleted User' %>
+                                </div>
+
+                                <p class="comment-text">
+                                    <%= comment.content %>
+                                </p>
+                            </div>
+
+                        </div>
+                        <% }) %>
+        </div>
+
+
         <%- include('./partials/scripts') %>
 </body>
 

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+    body {
+        background-color: #f5f7fb;
+    }
+
+    .blog-form-container {
+        max-width: 800px;
+        margin: 50px auto;
+    }
+
+    .blog-form-card {
+        background: white;
+        padding: 35px;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .page-title {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 30px;
+        color: #222;
+    }
+
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 12px;
+    }
+
+    #body {
+        min-height: 250px;
+        resize: vertical;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 10px;
+    }
+
+    .upload-box {
+        padding: 15px;
+        border: 2px dashed #d0d7de;
+        border-radius: 10px;
+        background: #fafafa;
+    }
+</style>
+    <%- include('./partials/head') %>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HomePage</title>
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+        <div class="container blog-form-container">
+    <div class="blog-form-card">
+
+        <h1 class="page-title">
+            Create New Blog
+        </h1>
+
+        <form action="/blog" method="post" enctype="multipart/form-data">
+
+            <div class="mb-4">
+                <label for="coverImage" class="form-label">
+                    Cover Image
+                </label>
+
+                <div class="upload-box">
+                    <input
+                        type="file"
+                        class="form-control"
+                        id="coverImage"
+                        name="coverImage">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="title" class="form-label">
+                    Blog Title
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    placeholder="Enter your blog title">
+            </div>
+
+            <div class="mb-4">
+                <label for="body" class="form-label">
+                    Blog Content
+                </label>
+
+                <textarea
+                    class="form-control"
+                    id="body"
+                    name="body"
+                    placeholder="Write your blog here..."></textarea>
+            </div>
+
+            <button
+                class="btn btn-primary submit-btn"
+                type="submit">
+                Publish Blog
+            </button>
+
+        </form>
+    </div>
+</div>
+        <%- include('./partials/scripts') %>
+</body>
+
+</html>
